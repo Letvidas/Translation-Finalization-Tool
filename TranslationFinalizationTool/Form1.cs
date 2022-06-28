@@ -6,12 +6,12 @@ using static System.Windows.Forms.AxHost;
 
 namespace TranslationFinalizationTool
 {
-    public partial class Form1 : Form
+    public partial class Translations : Form
     {
         string[] files;
         private TranslationStructureClass _writeTo = new();
         private TranslationStructureClass _writeFrom = new();
-        public Form1()
+        public Translations()
         {
             InitializeComponent();
         }

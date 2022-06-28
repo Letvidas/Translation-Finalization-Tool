@@ -1,6 +1,6 @@
 ﻿namespace TranslationFinalizationTool
 {
-    partial class Form1
+    partial class Translations
     {
         /// <summary>
         ///  Required designer variable.
@@ -28,10 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Translations));
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -60,12 +59,6 @@
             this.button2.Text = "Select Translations Directory";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.DirectoryButton_Click);
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
             // textBox1
             // 
@@ -131,10 +124,11 @@
             this.label3.TabIndex = 9;
             this.label3.Text = "Simplanova Translation Finalizer Tool";
             // 
-            // Form1
+            // Translations
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(696, 273);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.button4);
@@ -145,8 +139,8 @@
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "Translations";
+            this.Text = "Translation Finalization";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -157,7 +151,6 @@
 
         private Button button1;
         private Button button2;
-        private ContextMenuStrip contextMenuStrip1;
         private TextBox textBox1;
         private TextBox textBox2;
         private Label label1;
