@@ -130,21 +130,21 @@ namespace TranslationFinalizationTool
         private void FindNeedsTranslation()
         {
             int Number = 0;
-            //int needsTrans = 0;
             foreach(var Entry in _writeTo.Source)
             {
                 if(_writeTo.Target[Number].Contains("<target state=\"needs-translation\"/>"))
                 {
-                    var Temp = FindBestTarget(Entry);
-                    if (!Temp.Equals(""))
+                    if (!Entry.Contains("<source></source>"))
                     {
-                        _writeTo.Target[Number] = Temp;
+                        var Temp = FindBestTarget(Entry);
+                        if (!Temp.Equals(""))
+                        {
+                            _writeTo.Target[Number] = Temp;
+                        }
                     }
-                    //needsTrans++;
                 }
                 Number++;
             }
-            //MessageBox.Show(needsTrans.ToString());
         }
 
         private string FindBestTarget(string Source)
@@ -155,18 +155,30 @@ namespace TranslationFinalizationTool
             {
                 if (Source.Equals(SourceEntry))
                 {
-                    if (!_writeFrom.Target[Index].Contains("needs-translation"))
-                    {
-                        AllPossibleTargets.Add(_writeFrom.Target[Index]);
-                    }
+                        if (!_writeFrom.Target[Index].Contains("needs-translation"))
+                        {
+                            AllPossibleTargets.Add(_writeFrom.Target[Index]);
+                        }         
                 }
                 Index++;
             }
             if (!AllPossibleTargets.Count.Equals(0))
             {
                 var BestTarget = AllPossibleTargets.GroupBy(x => x).OrderByDescending(g => g.Count()).First();
-                string BestString = BestTarget.Key.Insert(17, " state=\"translated\"");
-                return BestString;
+                if (!BestTarget.Key.Contains("state=\"translated\""))
+                {
+                    string BestString = BestTarget.Key.Insert(17, " state=\"translated\"");
+                    
+                    if (BestString.Contains("          <target state=\"translated\">"))
+                    {
+                        return BestString;
+                    }
+                }
+                /*if (!BestTarget.Key.Contains("          <target state=\"translated\">"))
+                {
+                    return BestTarget.Key.Insert(17, " state=\"translated\"");
+                }*/
+                return BestTarget.Key;
             }
             return "";
         }
