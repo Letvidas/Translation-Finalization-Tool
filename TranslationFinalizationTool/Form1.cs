@@ -3,6 +3,8 @@ using System.Text;
 using System.Transactions;
 using TranslationFinalizationTool.Class;
 using static System.Windows.Forms.AxHost;
+using System.Threading;
+using System.Diagnostics;
 
 namespace TranslationFinalizationTool
 {
@@ -11,9 +13,20 @@ namespace TranslationFinalizationTool
         string[] files;
         private TranslationStructureClass _writeTo = new();
         private TranslationStructureClass _writeFrom = new();
+        private int _progressBarMaximum;
+        private Stopwatch _stopWatch;
+
         public Translations()
         {
             InitializeComponent();
+        }
+
+        private void SetProgressBar()
+        {
+            progressBar1.Maximum = _progressBarMaximum;
+            progressBar1.Minimum = 0;
+            progressBar1.Value = 0;
+            progressBar1.Visible = true;
         }
 
         private void FileButton_Click(object sender, EventArgs e)
@@ -44,14 +57,32 @@ namespace TranslationFinalizationTool
         {
             ReadEvaluationFile();
             FindAllSourcesAndTargets();
-            FindNeedsTranslation();
-            CreateNewFile(_writeTo,textBox1.Text);
+            label4.Text = @"00s 00m";
+            SetProgressBar();
+            _stopWatch = new Stopwatch();
+            _stopWatch.Start();
+            timer1.Interval = 1000;
+            timer1.Enabled = true;
+            timer1.Tick += Timer1_Tick;
+            timer1.Start();
+            Thread thread = new(FindNeedsTranslation);
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
         }
+
+        private void Timer1_Tick(object sender, EventArgs e)
+        {
+            MethodInvoker labelUpdate = () => label4.Text = _stopWatch.Elapsed.Minutes.ToString() + @"m " + _stopWatch.Elapsed.Seconds.ToString() + @"s";
+            label4.Invoke(labelUpdate);
+            Application.DoEvents();
+        }
+
         private void ReadEvaluationFile()
         {
             int minimumLength = 13;
             int iteration = 0;
             int iterationStart = 0;
+            _progressBarMaximum = 0;
             _writeTo = new TranslationStructureClass();
             if (File.ReadAllLines(textBox1.Text).Length > minimumLength)
             {
@@ -69,6 +100,7 @@ namespace TranslationFinalizationTool
                     else if (line.Contains("<source>"))
                     {
                         _writeTo.Source.Add(line);
+                        _progressBarMaximum++;
                     }
                     else if (line.Contains("<note") && iteration == 0)
                     {
@@ -113,6 +145,7 @@ namespace TranslationFinalizationTool
                 {
                     foreach (string line in File.ReadAllLines(file, Encoding.Default))
                     {
+
                         if (line.Contains("<target"))
                         {
                             _writeFrom.Target.Add(line);
@@ -129,6 +162,10 @@ namespace TranslationFinalizationTool
 
         private void FindNeedsTranslation()
         {
+            MethodInvoker labelShow4 = () => label4.Visible = true;
+            MethodInvoker labelShow5 = () => label5.Visible = true;
+            label4.Invoke(labelShow4);
+            label5.Invoke(labelShow5);
             int Number = 0;
             foreach(var Entry in _writeTo.Source)
             {
@@ -144,7 +181,19 @@ namespace TranslationFinalizationTool
                     }
                 }
                 Number++;
+                MethodInvoker progressBarUp = () => progressBar1.Value++;
+                progressBar1.Invoke(progressBarUp);
             }
+            MethodInvoker labelHide4 = () => label4.Visible = false;
+            MethodInvoker labelHide5 = () => label5.Visible = false;
+            MethodInvoker progressBarVisible = () => progressBar1.Visible = false;
+            progressBar1.Invoke(progressBarVisible);
+            label4.Invoke(labelHide4);
+            label5.Invoke(labelHide5);
+            _stopWatch.Stop();
+            _stopWatch.Reset();
+            timer1.Stop();
+            CreateNewFile(_writeTo, textBox1.Text);
         }
 
         private string FindBestTarget(string Source)

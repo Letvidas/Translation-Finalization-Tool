@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Translations));
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
@@ -38,6 +39,10 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
@@ -96,9 +101,9 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(456, 230);
+            this.button3.Location = new System.Drawing.Point(590, 262);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(222, 29);
+            this.button3.Size = new System.Drawing.Size(88, 29);
             this.button3.TabIndex = 7;
             this.button3.Text = "Start";
             this.button3.UseVisualStyleBackColor = true;
@@ -106,7 +111,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(21, 230);
+            this.button4.Location = new System.Drawing.Point(21, 262);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(222, 29);
             this.button4.TabIndex = 8;
@@ -124,12 +129,43 @@
             this.label3.TabIndex = 9;
             this.label3.Text = "Simplanova Translation Finalizer Tool";
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(277, 208);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(401, 29);
+            this.progressBar1.TabIndex = 10;
+            this.progressBar1.Visible = false;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(614, 240);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(64, 20);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "00s 00m";
+            this.label4.Visible = false;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(502, 239);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(101, 20);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "Time elapsed:";
+            this.label5.Visible = false;
+            // 
             // Translations
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(696, 273);
+            this.ClientSize = new System.Drawing.Size(696, 303);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
@@ -157,5 +193,9 @@
         private Button button3;
         private Button button4;
         private Label label3;
+        private ProgressBar progressBar1;
+        private System.Windows.Forms.Timer timer1;
+        private Label label4;
+        private Label label5;
     }
 }
